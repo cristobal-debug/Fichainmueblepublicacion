@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha Inmueble Publicación – Rental Holidays</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap');
+
+  :root {
+    --primary: #1a3a5c;
+    --accent: #e8a020;
+    --light: #f4f7fb;
+    --border: #b0bdd0;
+    --text: #1c2733;
+    --label: #3a5272;
+    --row: #eaf0f8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: #dde4ee;
+    color: var(--text);
+    padding: 24px;
+  }
+
+  #form-wrapper {
+    max-width: 950px;
+    margin: 0 auto;
+    background: #fff;
+    border: 2px solid var(--primary);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  /* HEADER */
+  .form-header {
+    background: var(--primary);
+    color: #fff;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .form-header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .form-header .sub {
+    font-size: 12px;
+    opacity: .75;
+    margin-top: 2px;
+  }
+  .header-fields {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .header-field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .header-field label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    opacity: .7;
+  }
+  .header-field input {
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 3px;
+    color: #fff;
+    font-size: 12px;
+    padding: 3px 7px;
+    width: 130px;
+    font-family: 'Barlow', sans-serif;
+  }
+  .header-field input::placeholder { color: rgba(255,255,255,.5); }
+
+  /* SECTION TITLES */
+  .section-title {
+    background: var(--accent);
+    color: var(--primary);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+  }
+
+  /* TABLE GRID */
+  .grid {
+    display: grid;
+    gap: 0;
+  }
+  .row {
+    display: grid;
+    border-bottom: 1px solid var(--border);
+  }
+  .row:nth-child(odd) { background: var(--row); }
+  .row:nth-child(even) { background: #fff; }
+
+  .cell {
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-right: 1px solid var(--border);
+    min-height: 30px;
+  }
+  .cell:last-child { border-right: none; }
+
+  .cell label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--label);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    min-width: 90px;
+  }
+  .cell label.short { min-width: 60px; }
+  .cell label.long { min-width: 120px; }
+
+  .cell input[type="text"],
+  .cell input[type="email"],
+  .cell input[type="date"],
+  .cell input[type="number"],
+  .cell select,
+  .cell textarea {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    background: transparent;
+    font-size: 11px;
+    font-family: 'Barlow', sans-serif;
+    color: var(--text);
+    padding: 2px 4px;
+    outline: none;
+  }
+  .cell textarea {
+    resize: vertical;
+    min-height: 50px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 4px;
+  }
+  .cell input[type="checkbox"] {
+    accent-color: var(--primary);
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+  }
+
+  /* check-label pairs */
+  .check-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    align-items: center;
+  }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: var(--label);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  /* columns inside rows */
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .cols-5 { grid-template-columns: 1fr 1fr 1fr 1fr 1fr; }
+  .cols-6 { grid-template-columns: repeat(6, 1fr); }
+  .cols-12 { grid-template-columns: 2fr 1fr; }
+
+  /* full width cell */
+  .cell.full { grid-column: 1 / -1; }
+
+  /* Two-section layout */
+  .two-col-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .two-col-section > div {
+    border-right: 1px solid var(--border);
+  }
+  .two-col-section > div:last-child { border-right: none; }
+
+  /* EXTRAS small inline checkbox grid */
+  .extras-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 6px 10px;
+  }
+
+  /* Observations */
+  .obs-cell {
+    padding: 6px 10px;
+  }
+  .obs-cell label {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--label);
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    margin-bottom: 4px;
+  }
+  .obs-cell textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 11px;
+    padding: 5px;
+    resize: vertical;
+    min-height: 60px;
+    background: transparent;
+    outline: none;
+    color: var(--text);
+  }
+
+  /* KEYS / LLAVES row */
+  .llaves-row {
+    padding: 7px 14px;
+    background: var(--row);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--label);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+  }
+  .llaves-row input {
+    width: 50px;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    font-size: 12px;
+    font-family: 'Barlow', sans-serif;
+    background: transparent;
+    outline: none;
+  }
+
+  /* BOTTOM BUTTONS */
+  .btn-bar {
+    padding: 14px 20px;
+    background: var(--light);
+    border-top: 2px solid var(--primary);
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+  button {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 9px 22px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: opacity .15s;
+  }
+  button:hover { opacity: .85; }
+  .btn-reset { background: #e0e5ed; color: var(--primary); }
+  .btn-pdf { background: var(--primary); color: #fff; }
+
+  /* PRINT overrides */
+  @media print {
+    body { background: #fff; padding: 0; }
+    .btn-bar { display: none; }
+    #form-wrapper { border: 1px solid #999; max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div id="form-wrapper">
+
+  <!-- HEADER -->
+  <div class="form-header">
+    <div>
+      <h1>Ficha Inmueble Publicación</h1>
+      <div class="sub">Complete todos los campos del formulario</div>
+    </div>
+    <div class="header-fields">
+      <div class="header-field">
+        <label>Apartamento Nº / RT</label>
+        <input type="text" placeholder="Nº RT tramitar">
+      </div>
+      <div class="header-field">
+        <label>Fecha de entrada</label>
+        <input type="date">
+      </div>
+    </div>
+  </div>
+
+  <!-- DIRECCIÓN -->
+  <div class="section-title">📍 Localización</div>
+  <div class="grid">
+    <div class="row cols-3">
+      <div class="cell"><label class="long">Dirección</label><input type="text"></div>
+      <div class="cell"><label>Urbanización</label><input type="text"></div>
+      <div class="cell"><label class="short">Nº Parking</label><input type="text"></div>
+    </div>
+    <div class="row cols-3">
+      <div class="cell"><label>Población</label><input type="text"></div>
+      <div class="cell"><label>Nª de Cuenta</label><input type="text"></div>
+      <div class="cell"><label class="long">Fechas Bloqueadas</label><input type="text" placeholder="dd/mm – dd/mm"></div>
+    </div>
+  </div>
+
+  <!-- PROPIETARIO -->
+  <div class="section-title">👤 Datos del Propietario</div>
+  <div class="grid">
+    <div class="row cols-3">
+      <div class="cell"><label>NIF</label><input type="text"></div>
+      <div class="cell"><label class="long">Nombre y Apellidos</label><input type="text"></div>
+      <div class="cell"><label class="long">Fecha de Nacimiento</label><input type="date"></div>
+    </div>
+    <div class="row cols-3">
+      <div class="cell"><label>Dirección</label><input type="text"></div>
+      <div class="cell"><label>Teléfono</label><input type="text"></div>
+      <div class="cell"><label>Email</label><input type="email"></div>
+    </div>
+  </div>
+
+  <!-- LLAVES -->
+  <div class="llaves-row">
+    El propietario cede a Rental Holidays
+    <input type="number" min="0" max="20" placeholder="0">
+    juegos de llaves
+  </div>
+
+  <!-- DESCRIPCIÓN PROPIEDAD -->
+  <div class="section-title">🏠 Descripción de la Propiedad</div>
+
+  <!-- Tipo -->
+  <div class="grid">
+    <div class="row cols-4">
+      <div class="cell">
+        <label>Tipo</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Casa</label>
+          <label class="check-item"><input type="checkbox"> Apto.</label>
+          <label class="check-item"><input type="checkbox"> Ático</label>
+        </div>
+      </div>
+      <div class="cell"><label class="short">Planta Nº</label><input type="number"></div>
+      <div class="cell"><label class="long">Año Construcción</label><input type="number" placeholder="ej. 2005"></div>
+      <div class="cell"><label class="long">Sup. Habitable (m²)</label><input type="number"></div>
+    </div>
+
+    <div class="row cols-4">
+      <div class="cell">
+        <label>Exterior</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Sí</label>
+          <label class="check-item"><input type="checkbox"> No</label>
+        </div>
+      </div>
+      <div class="cell">
+        <label>Terraza</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Sí</label>
+        </div>
+      </div>
+      <div class="cell">
+        <label>Jardín</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Sí</label>
+        </div>
+      </div>
+      <div class="cell">
+        <label>Balcón</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Sí</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Distancias y aparcamiento -->
+  <div class="section-title">📏 Distancias y Aparcamiento</div>
+  <div class="grid">
+    <div class="row cols-4">
+      <div class="cell"><label>Mar (m)</label><input type="number"></div>
+      <div class="cell"><label class="long">Playa (arena/grava)</label><input type="text"></div>
+      <div class="cell"><label>Puerto (m)</label><input type="number"></div>
+      <div class="cell"><label class="long">Supermercado (m)</label><input type="number"></div>
+    </div>
+    <div class="row cols-4">
+      <div class="cell"><label>Restaurantes (m)</label><input type="number"></div>
+      <div class="cell"><label>Aeropuerto (km)</label><input type="number"></div>
+      <div class="cell"><label class="long">Transporte Público</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Bus</label>
+          <label class="check-item"><input type="checkbox"> Tren</label>
+        </div>
+      </div>
+      <div class="cell"><label>Otro (m)</label><input type="text"></div>
+    </div>
+    <div class="row cols-4">
+      <div class="cell">
+        <label>Aparcamiento</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Privado</label>
+          <label class="check-item"><input type="checkbox"> Compartido</label>
+          <label class="check-item"><input type="checkbox"> Calle (gratis)</label>
+        </div>
+      </div>
+      <div class="cell"><label>Nº Plazas</label><input type="number"></div>
+      <div class="cell">
+        <label>Garaje / Porche</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Garaje</label>
+          <label class="check-item"><input type="checkbox"> Porche</label>
+        </div>
+      </div>
+      <div class="cell"></div>
+    </div>
+  </div>
+
+  <!-- PISCINA + COCINA (two-col) -->
+  <div class="two-col-section">
+    <!-- PISCINA -->
+    <div>
+      <div class="section-title">🏊 Piscina</div>
+      <div class="grid">
+        <div class="row cols-2">
+          <div class="cell">
+            <label>Tipo</label>
+            <div class="check-group">
+              <label class="check-item"><input type="checkbox"> Priv.</label>
+              <label class="check-item"><input type="checkbox"> Comunit.</label>
+            </div>
+          </div>
+          <div class="cell">
+            <label>Climatizada</label>
+            <div class="check-group">
+              <label class="check-item"><input type="checkbox"> Sí</label>
+              <label class="check-item"><input type="checkbox"> Cubierta</label>
+            </div>
+          </div>
+        </div>
+        <div class="row cols-2">
+          <div class="cell"><label class="long">Fechas apertura</label><input type="text" placeholder="dd/mm – dd/mm"></div>
+          <div class="cell">
+            <label>Jacuzzi</label>
+            <div class="check-group">
+              <label class="check-item"><input type="checkbox"> Sí</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell full">
+            <div class="check-group">
+              <label class="check-item"><input type="checkbox"> Mobiliario exterior</label>
+              <label class="check-item"><input type="checkbox"> Sillas y mesa jardín</label>
+              <label class="check-item"><input type="checkbox"> Tumbonas</label>
+              <label class="check-item"><input type="checkbox"> Barbacoa</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- COCINA -->
+    <div>
+      <div class="section-title">🍳 Cocina</div>
+      <div class="grid">
+        <div class="row cols-2">
+          <div class="cell">
+            <label>Tipo</label>
+            <div class="check-group">
+              <label class="check-item"><input type="checkbox"> Separada</label>
+              <label class="check-item"><input type="checkbox"> Americana</label>
+            </div>
+          </div>
+          <div class="cell"><label>Nº Fuegos</label><input type="number" max="6"></div>
+        </div>
+        <div class="row cols-2">
+          <div class="cell">
+            <label>Energía</label>
+            <div class="check-group">
+              <label class="check-item"><input type="checkbox"> Eléctrica</label>
+              <label class="check-item"><input type="checkbox"> Gas</label>
+            </div>
+          </div>
+          <div class="cell">
+            <label>Electrodom.</label>
+            <div class="check-group">
+              <label class="check-item"><input type="checkbox"> Frigorífico</label>
+              <label class="check-item"><input type="checkbox"> Congelador</label>
+              <label class="check-item"><input type="checkbox"> Frigo+Cong</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="cell full">
+            <div class="check-group">
+              <label class="check-item"><input type="checkbox"> Campana extracción</label>
+              <label class="check-item"><input type="checkbox"> Cafetera</label>
+              <label class="check-item"><input type="checkbox"> Lavavajillas</label>
+              <label class="check-item"><input type="checkbox"> Microondas</label>
+              <label class="check-item"><input type="checkbox"> Horno</label>
+              <label class="check-item"><input type="checkbox"> Batidora</label>
+              <label class="check-item"><input type="checkbox"> Tostadora</label>
+              <label class="check-item"><input type="checkbox"> Lavadora</label>
+              <label class="check-item"><input type="checkbox"> Secadora</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HABITACIONES + SALON -->
+  <div class="section-title">🛏 Interior – Habitaciones y Salón</div>
+  <div class="grid">
+    <div class="row cols-4">
+      <div class="cell"><label>Nº Habitaciones</label><input type="number"></div>
+      <div class="cell"><label>Camas individuales</label><input type="number"></div>
+      <div class="cell"><label>Camas matrimonio</label><input type="number"></div>
+      <div class="cell"><label>Cunas</label><input type="number"></div>
+    </div>
+    <div class="row cols-4">
+      <div class="cell"><label>Sofá-Cama</label><input type="number"></div>
+      <div class="cell"><label class="long">Posibilidad supletoria</label><input type="number"></div>
+      <div class="cell"><label class="long">Capacidad máx. personas</label><input type="number"></div>
+      <div class="cell"><label>Sofá (salón)</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Sí</label>
+        </div>
+      </div>
+    </div>
+    <div class="row cols-4">
+      <div class="cell"><label>TV</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Sí</label>
+        </div>
+      </div>
+      <div class="cell"><label>Internet</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> WiFi</label>
+          <label class="check-item"><input type="checkbox"> Cable</label>
+          <label class="check-item"><input type="checkbox"> Fibra</label>
+        </div>
+      </div>
+      <div class="cell"><label>Plancha</label>
+        <div class="check-group"><label class="check-item"><input type="checkbox"> Sí</label></div>
+      </div>
+      <div class="cell"><label>Tendedero</label>
+        <div class="check-group"><label class="check-item"><input type="checkbox"> Sí</label></div>
+      </div>
+    </div>
+    <div class="row cols-2">
+      <div class="cell"><label>📶 Red WiFi</label><input type="text" placeholder="Nombre de la red (SSID)"></div>
+      <div class="cell"><label>🔑 Contraseña WiFi</label><input type="text" placeholder="Contraseña WiFi"></div>
+    </div>
+  </div>
+
+  <!-- BAÑOS -->
+  <div class="section-title">🚿 Baños</div>
+  <div class="grid">
+    <div class="row cols-4">
+      <div class="cell"><label>Nº Baño 1º</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Váter</label>
+          <label class="check-item"><input type="checkbox"> Lavabo</label>
+          <label class="check-item"><input type="checkbox"> Ducha</label>
+          <label class="check-item"><input type="checkbox"> Bañera</label>
+        </div>
+      </div>
+      <div class="cell"><label>Nº Baño 2º</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Váter</label>
+          <label class="check-item"><input type="checkbox"> Lavabo</label>
+          <label class="check-item"><input type="checkbox"> Ducha</label>
+          <label class="check-item"><input type="checkbox"> Bañera</label>
+        </div>
+      </div>
+      <div class="cell"><label class="long">Total Baños</label><input type="number"></div>
+      <div class="cell"></div>
+    </div>
+  </div>
+
+  <!-- CLIMATIZACIÓN Y CALEFACCIÓN -->
+  <div class="section-title">❄️ Climatización y Calefacción</div>
+  <div class="grid">
+    <div class="row cols-3">
+      <div class="cell"><label class="long">Aire acondicionado</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Sí</label>
+        </div>
+      </div>
+      <div class="cell"><label>Tipo / Ubicación</label><input type="text"></div>
+      <div class="cell"><label>Ventilador</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Sí</label>
+          <label class="check-item"><input type="checkbox"> Techo</label>
+        </div>
+      </div>
+    </div>
+    <div class="row cols-3">
+      <div class="cell"><label>Calefacción</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Radiadores</label>
+          <label class="check-item"><input type="checkbox"> Eléctrica</label>
+          <label class="check-item"><input type="checkbox"> Gas</label>
+          <label class="check-item"><input type="checkbox"> Estufa</label>
+          <label class="check-item"><input type="checkbox"> Chimenea</label>
+        </div>
+      </div>
+      <div class="cell"><label>Seguridad</label><input type="text" placeholder="Alarma, caja fuerte..."></div>
+      <div class="cell"></div>
+    </div>
+  </div>
+
+  <!-- EXTRAS / SERVICIOS -->
+  <div class="section-title">🎾 Extras / Servicios</div>
+  <div class="grid">
+    <div class="row">
+      <div class="cell full">
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Parque infantil</label>
+          <label class="check-item"><input type="checkbox"> Gimnasio</label>
+          <label class="check-item"><input type="checkbox"> Cafetería</label>
+          <label class="check-item"><input type="checkbox"> Pin-Pong</label>
+          <label class="check-item"><input type="checkbox"> Fútbol/Baloncesto</label>
+          <label class="check-item"><input type="checkbox"> Jacuzzi exterior</label>
+        </div>
+      </div>
+    </div>
+    <div class="row cols-2">
+      <div class="cell"><label>Otros extras</label><input type="text"></div>
+      <div class="cell"></div>
+    </div>
+  </div>
+
+  <!-- SE PERMITEN -->
+  <div class="section-title">✅ Se Permiten</div>
+  <div class="grid">
+    <div class="row">
+      <div class="cell full">
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> Niños</label>
+          <label class="check-item"><input type="checkbox"> Fumadores</label>
+          <label class="check-item"><input type="checkbox"> Mascotas</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBSERVACIONES -->
+  <div class="section-title">📝 Observaciones</div>
+  <div class="obs-cell">
+    <textarea rows="4" placeholder="Observaciones generales, condiciones especiales, accesos, notas..."></textarea>
+  </div>
+
+</div><!-- end form-wrapper -->
+
+<!-- BUTTONS (outside print area via CSS) -->
+<div class="btn-bar" style="max-width:950px;margin:0 auto;">
+  <button class="btn-reset" onclick="resetForm()">🗑 Limpiar formulario</button>
+  <button class="btn-pdf" onclick="downloadPDF()">⬇ Descargar PDF</button>
+</div>
+
+<script>
+function resetForm() {
+  if(confirm('¿Seguro que quieres limpiar todos los campos?')) {
+    document.querySelectorAll('input:not([type=button])').forEach(i => {
+      if(i.type==='checkbox') i.checked=false;
+      else i.value='';
+    });
+    document.querySelectorAll('select').forEach(s => s.selectedIndex=0);
+    document.querySelectorAll('textarea').forEach(t => t.value='');
+  }
+}
+
+function downloadPDF() {
+  const el = document.getElementById('form-wrapper');
+  const opt = {
+    margin: [8,8,8,8],
+    filename: 'Ficha_Inmueble_RentalHolidays.pdf',
+    image: { type: 'jpeg', quality: 0.97 },
+    html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+  html2pdf().set(opt).from(el).save();
+}
+</script>
+</body>
+</html>
