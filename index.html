@@ -7,99 +7,81 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:wght@700&display=swap');
 
-/* ══════════════════════════════════
-   RESET
-══════════════════════════════════ */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ══════════════════════════════════
-   SCREEN WRAPPER
-══════════════════════════════════ */
+/* ── SCREEN ── */
 body {
   font-family: 'Barlow', sans-serif;
   background: #dde4ee;
-  padding: 24px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
 }
-
-.btn-bar {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-  max-width: 800px;
-}
+.btn-bar { display: flex; gap: 10px; width: 794px; }
 button {
   font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700; font-size: 13px; letter-spacing: 1px;
-  text-transform: uppercase; padding: 9px 22px;
+  font-weight: 700; font-size: 14px; letter-spacing: 1px;
+  text-transform: uppercase; padding: 10px 26px;
   border: none; border-radius: 3px; cursor: pointer;
 }
 .btn-reset { background: #d0d7e2; color: #1a3a5c; }
 .btn-pdf   { background: #1a3a5c; color: #fff; }
 
-/* ══════════════════════════════════
-   SHEET — screen preview
-══════════════════════════════════ */
+/* ── SHEET ── */
 #sheet {
-  width: 794px;          /* 210mm @ 96dpi */
+  width: 794px;
+  min-height: 1123px;   /* 297mm @ 96dpi */
   background: #fff;
   border: 1px solid #aaa;
-  padding: 22px 24px 18px;
+  padding: 18px 20px 16px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* ══════════════════════════════════
-   TYPOGRAPHY & COLOUR VARS
-══════════════════════════════════ */
 :root {
   --blue:   #1a3a5c;
-  --border: #cccccc;
-  --stripe: #f4f7fb;
-  --lbl:    6.2pt;
-  --val:    7.5pt;
+  --border: #c0c8d8;
+  --stripe: #f2f5fb;
+  --lbl:    8.5pt;
+  --val:    9.5pt;
+  --row-h:  26px;
 }
 
-/* ══════════════════════════════════
-   HEADER
-══════════════════════════════════ */
+/* ── HEADER ── */
 .hdr {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--blue);
-  padding-bottom: 5px;
-  margin-bottom: 5px;
+  border-bottom: 2.5px solid var(--blue);
+  padding-bottom: 7px;
+  margin-bottom: 7px;
 }
 .hdr h1 {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 16pt; font-weight: 700;
-  color: var(--blue); text-transform: uppercase; letter-spacing: .4px;
+  font-size: 20pt; font-weight: 700;
+  color: var(--blue); text-transform: uppercase; letter-spacing: .5px;
 }
-.hdr-r { display: flex; gap: 16px; }
-.hf    { display: flex; flex-direction: column; gap: 1px; }
-.hf em { font-style: normal; font-size: 6pt; color: #666; text-transform: uppercase; letter-spacing: .4px; }
+.hdr-r { display: flex; gap: 20px; }
+.hf    { display: flex; flex-direction: column; gap: 2px; }
+.hf em { font-style: normal; font-size: 7.5pt; color: #555; text-transform: uppercase; letter-spacing: .4px; }
 .hf input {
-  border: none; border-bottom: 1px solid #999;
-  font-size: var(--val); font-family: 'Barlow', sans-serif;
-  width: 120px; outline: none; background: transparent;
+  border: none; border-bottom: 1.5px solid #888;
+  font-size: 10pt; font-family: 'Barlow', sans-serif;
+  width: 140px; outline: none; background: transparent;
 }
 
-/* ══════════════════════════════════
-   SECTION TITLE BAR
-══════════════════════════════════ */
+/* ── SECTION TITLE ── */
 .st {
   background: var(--blue); color: #fff;
   font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700; font-size: 6.8pt; letter-spacing: .9px;
-  text-transform: uppercase; padding: 2px 6px;
-  margin-top: 5px;
+  font-weight: 700; font-size: 9pt; letter-spacing: 1px;
+  text-transform: uppercase; padding: 4px 8px;
+  margin-top: 7px;
 }
 
-/* ══════════════════════════════════
-   TABLE ROWS
-══════════════════════════════════ */
+/* ── TABLES ── */
 .tbl {
   width: 100%;
   border: 1px solid var(--border);
@@ -109,128 +91,119 @@ button {
 .tbl tr:nth-child(odd)  { background: var(--stripe); }
 .tbl tr:nth-child(even) { background: #fff; }
 .tbl td {
-  padding: 2px 5px;
-  border: 1px solid #ddd;
+  padding: 5px 8px;
+  border: 1px solid #d0d8e8;
   vertical-align: middle;
   font-size: var(--val);
-  white-space: nowrap;
+  height: var(--row-h);
 }
 
 .lbl {
   font-size: var(--lbl); font-weight: 600;
   color: var(--blue); text-transform: uppercase;
   letter-spacing: .3px; white-space: nowrap;
+  display: block; margin-bottom: 2px;
 }
+.lbl.inline { display: inline; margin-bottom: 0; }
 
 .tbl input[type="text"],
 .tbl input[type="email"],
 .tbl input[type="date"],
 .tbl input[type="number"] {
-  border: none; border-bottom: 1px solid #bbb;
+  border: none; border-bottom: 1px solid #b0bbd0;
   font-size: var(--val); font-family: 'Barlow', sans-serif;
   background: transparent; outline: none; color: #111;
-  padding: 0 2px; width: 100%;
+  padding: 1px 3px; width: 100%;
 }
 
-.ck { display: flex; flex-wrap: nowrap; gap: 6px; align-items: center; }
+.ck { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; margin-top: 2px; }
 .ci {
-  display: flex; align-items: center; gap: 2px;
+  display: flex; align-items: center; gap: 3px;
   font-size: var(--lbl); font-weight: 600; color: var(--blue);
   text-transform: uppercase; white-space: nowrap;
 }
 .ci input[type="checkbox"] {
-  width: 9px; height: 9px;
+  width: 11px; height: 11px;
   accent-color: var(--blue); cursor: pointer; flex-shrink: 0;
-  margin: 0;
 }
 
-/* ══════════════════════════════════
-   TWO-COLUMN LAYOUT
-══════════════════════════════════ */
+/* ── TWO-COL ── */
 .two {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-top: 5px;
-  border: 1px solid var(--border);
-  border-bottom: none;
+  display: grid; grid-template-columns: 1fr 1fr;
+  margin-top: 7px;
+  border: 1px solid var(--border); border-bottom: none;
 }
 .two > div { border-right: 1px solid var(--border); }
 .two > div:last-child { border-right: none; }
-.two .st   { margin-top: 0; }
-.two .tbl  { border-left: none; border-right: none; }
+.two .st  { margin-top: 0; }
+.two .tbl { border-left: none; border-right: none; }
 
-/* THREE-COLUMN */
+/* ── THREE-COL ── */
 .three {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin-top: 5px;
-  border: 1px solid var(--border);
-  border-bottom: none;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 7px;
+  border: 1px solid var(--border); border-bottom: none;
 }
 .three > div { border-right: 1px solid var(--border); }
 .three > div:last-child { border-right: none; }
 .three .st  { margin-top: 0; }
 .three .tbl { border-left: none; border-right: none; }
 
-/* LLAVES */
+/* ── LLAVES ── */
 .llaves {
-  font-size: 6.8pt; font-weight: 600; color: var(--blue);
-  padding: 3px 6px;
+  font-size: 9pt; font-weight: 600; color: var(--blue);
+  padding: 5px 8px;
   border: 1px solid var(--border); border-top: none;
   background: var(--stripe);
-  display: flex; align-items: center; gap: 5px;
+  display: flex; align-items: center; gap: 6px;
 }
 .llaves input {
-  width: 32px; text-align: center;
-  border: none; border-bottom: 1px solid #999;
-  font-size: var(--val); font-family: 'Barlow', sans-serif;
+  width: 38px; text-align: center;
+  border: none; border-bottom: 1.5px solid #888;
+  font-size: 10pt; font-family: 'Barlow', sans-serif;
   background: transparent; outline: none;
 }
 
-/* OBS */
-.obs { border: 1px solid var(--border); border-top: none; }
+/* ── OBS ── */
+.obs { border: 1px solid var(--border); border-top: none; flex: 1; }
 .obs textarea {
   width: 100%; border: none; resize: none;
-  font-size: 7pt; font-family: 'Barlow', sans-serif;
+  font-size: 9pt; font-family: 'Barlow', sans-serif;
   background: transparent; outline: none; color: #111;
-  padding: 3px 6px;
+  padding: 6px 8px; height: 100%; min-height: 52px;
 }
 
-/* FIRMA */
+/* ── FIRMA ── */
 .firma {
-  margin-top: 6px;
+  margin-top: 8px;
   border: 1px solid var(--border);
-  padding: 5px 7px;
+  padding: 8px 10px;
 }
 .firma-ttl {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 7pt; font-weight: 700; color: var(--blue);
-  text-transform: uppercase; letter-spacing: .5px;
-  margin-bottom: 6px;
+  font-size: 9.5pt; font-weight: 700; color: var(--blue);
+  text-transform: uppercase; letter-spacing: .6px;
+  margin-bottom: 10px;
 }
-.firma-row { display: flex; gap: 18px; align-items: flex-end; }
-.firma-f   { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-.firma-f.w { flex: 2.2; }
-.firma-f span { font-size: 5.5pt; color: #666; text-transform: uppercase; }
-.firma-line   { display: block; border-bottom: 1px solid #333; height: 22px; }
+.firma-row { display: flex; gap: 24px; align-items: flex-end; }
+.firma-f   { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.firma-f.w { flex: 2.5; }
+.firma-f span { font-size: 7.5pt; color: #555; text-transform: uppercase; letter-spacing: .3px; }
+.firma-line   { display: block; border-bottom: 1.5px solid #333; height: 30px; }
 .firma-box    {
-  border: 1px solid #333; height: 34px; flex: 1;
+  border: 1.5px solid #333; height: 50px;
   display: flex; align-items: center; justify-content: center;
 }
-.firma-box span { font-size: 6pt; color: #bbb; text-transform: uppercase; }
+.firma-box span { font-size: 8pt; color: #bbb; text-transform: uppercase; }
 
-/* ══════════════════════════════════
-   PRINT
-══════════════════════════════════ */
+/* ── PRINT ── */
 @media print {
-  @page { size: A4 portrait; margin: 10mm 10mm 10mm 10mm; }
+  @page { size: A4 portrait; margin: 8mm; }
   body  { background: #fff; padding: 0; display: block; }
   .btn-bar { display: none; }
   #sheet {
-    width: 100%;
-    border: none;
-    padding: 0;
-    box-shadow: none;
+    width: 100%; min-height: 0;
+    border: none; padding: 0;
   }
 }
 </style>
@@ -257,14 +230,14 @@ button {
   <div class="st">📍 Localización</div>
   <table class="tbl"><tbody>
     <tr>
-      <td style="width:32%"><span class="lbl">Dirección</span><br><input type="text" style="width:100%"></td>
-      <td style="width:25%"><span class="lbl">Urbanización</span><br><input type="text" style="width:100%"></td>
-      <td style="width:13%"><span class="lbl">Parking Nº</span><br><input type="number" style="width:100%"></td>
-      <td style="width:30%"><span class="lbl">Población</span><br><input type="text" style="width:100%"></td>
+      <td style="width:34%"><span class="lbl">Dirección</span><input type="text" style="width:100%"></td>
+      <td style="width:26%"><span class="lbl">Urbanización</span><input type="text" style="width:100%"></td>
+      <td style="width:12%"><span class="lbl">Parking Nº</span><input type="number" style="width:100%"></td>
+      <td><span class="lbl">Población</span><input type="text" style="width:100%"></td>
     </tr>
     <tr>
-      <td colspan="2"><span class="lbl">Nª Cuenta</span><br><input type="text" style="width:100%"></td>
-      <td colspan="2"><span class="lbl">Fechas Bloqueadas</span><br><input type="text" placeholder="dd/mm – dd/mm" style="width:100%"></td>
+      <td colspan="2"><span class="lbl">Nª Cuenta</span><input type="text" style="width:100%"></td>
+      <td colspan="2"><span class="lbl">Fechas Bloqueadas</span><input type="text" placeholder="dd/mm – dd/mm" style="width:100%"></td>
     </tr>
   </tbody></table>
 
@@ -272,16 +245,16 @@ button {
   <div class="st">👤 Propietario</div>
   <table class="tbl"><tbody>
     <tr>
-      <td style="width:15%"><span class="lbl">NIF</span><br><input type="text" style="width:100%"></td>
-      <td style="width:50%"><span class="lbl">Nombre y Apellidos</span><br><input type="text" style="width:100%"></td>
-      <td style="width:35%"><span class="lbl">F. Nacimiento</span><br><input type="date" style="width:100%"></td>
+      <td style="width:15%"><span class="lbl">NIF</span><input type="text" style="width:100%"></td>
+      <td style="width:52%"><span class="lbl">Nombre y Apellidos</span><input type="text" style="width:100%"></td>
+      <td><span class="lbl">F. Nacimiento</span><input type="date" style="width:100%"></td>
     </tr>
     <tr>
-      <td colspan="2"><span class="lbl">Dirección</span><br><input type="text" style="width:100%"></td>
-      <td><span class="lbl">Teléfono</span><br><input type="text" style="width:100%"></td>
+      <td colspan="2"><span class="lbl">Dirección</span><input type="text" style="width:100%"></td>
+      <td><span class="lbl">Teléfono</span><input type="text" style="width:100%"></td>
     </tr>
     <tr>
-      <td colspan="3"><span class="lbl">Email</span><br><input type="email" style="width:100%"></td>
+      <td colspan="3"><span class="lbl">Email</span><input type="email" style="width:60%"></td>
     </tr>
   </tbody></table>
   <div class="llaves">El propietario cede a Rental Holidays &nbsp;<input type="number" min="0">&nbsp; juego(s) de llaves</div>
@@ -292,18 +265,20 @@ button {
       <div class="st">🏠 Propiedad</div>
       <table class="tbl"><tbody>
         <tr>
-          <td><span class="lbl">Tipo</span>&nbsp;
-            <span class="ck" style="display:inline-flex">
+          <td colspan="2">
+            <span class="lbl inline">Tipo&nbsp;</span>
+            <span class="ck" style="display:inline-flex; margin-top:0">
               <label class="ci"><input type="checkbox"> Casa</label>
               <label class="ci"><input type="checkbox"> Apto</label>
               <label class="ci"><input type="checkbox"> Ático</label>
             </span>
+            &nbsp;&nbsp;<span class="lbl inline">Planta</span>&nbsp;
+            <input type="number" style="width:50px; display:inline">
           </td>
-          <td style="width:30%"><span class="lbl">Planta Nº</span><br><input type="number" style="width:100%"></td>
         </tr>
         <tr>
-          <td><span class="lbl">Año construc.</span><br><input type="number" placeholder="ej.2005" style="width:100%"></td>
-          <td><span class="lbl">Sup. hab. (m²)</span><br><input type="number" style="width:100%"></td>
+          <td><span class="lbl">Año construc.</span><input type="number" placeholder="ej.2005" style="width:100%"></td>
+          <td><span class="lbl">Sup. hab. (m²)</span><input type="number" style="width:100%"></td>
         </tr>
         <tr>
           <td colspan="2">
@@ -319,13 +294,14 @@ button {
         </tr>
         <tr>
           <td colspan="2">
-            <span class="lbl">Parking&nbsp;</span>
-            <span class="ck" style="display:inline-flex">
+            <span class="lbl inline">Parking&nbsp;</span>
+            <span class="ck" style="display:inline-flex; margin-top:0">
               <label class="ci"><input type="checkbox"> Privado</label>
               <label class="ci"><input type="checkbox"> Compartido</label>
               <label class="ci"><input type="checkbox"> Calle gratis</label>
             </span>
-            &nbsp;<span class="lbl">Plazas</span>&nbsp;<input type="number" style="width:36px">
+            &nbsp;&nbsp;<span class="lbl inline">Plazas</span>&nbsp;
+            <input type="number" style="width:44px; display:inline">
           </td>
         </tr>
       </tbody></table>
@@ -334,25 +310,26 @@ button {
       <div class="st">📏 Distancias</div>
       <table class="tbl"><tbody>
         <tr>
-          <td style="width:50%"><span class="lbl">Mar (m)</span><br><input type="number" style="width:100%"></td>
-          <td><span class="lbl">Playa</span><br><input type="text" placeholder="arena/grava" style="width:100%"></td>
+          <td style="width:50%"><span class="lbl">Mar (m)</span><input type="number" style="width:100%"></td>
+          <td><span class="lbl">Playa</span><input type="text" placeholder="arena/grava" style="width:100%"></td>
         </tr>
         <tr>
-          <td><span class="lbl">Puerto (m)</span><br><input type="number" style="width:100%"></td>
-          <td><span class="lbl">Superm. (m)</span><br><input type="number" style="width:100%"></td>
+          <td><span class="lbl">Puerto (m)</span><input type="number" style="width:100%"></td>
+          <td><span class="lbl">Superm. (m)</span><input type="number" style="width:100%"></td>
         </tr>
         <tr>
-          <td><span class="lbl">Restau. (m)</span><br><input type="number" style="width:100%"></td>
-          <td><span class="lbl">Aerop. (km)</span><br><input type="number" style="width:100%"></td>
+          <td><span class="lbl">Restau. (m)</span><input type="number" style="width:100%"></td>
+          <td><span class="lbl">Aerop. (km)</span><input type="number" style="width:100%"></td>
         </tr>
         <tr>
           <td colspan="2">
-            <span class="lbl">Transp.&nbsp;</span>
-            <span class="ck" style="display:inline-flex">
+            <span class="lbl inline">Transp.&nbsp;</span>
+            <span class="ck" style="display:inline-flex; margin-top:0">
               <label class="ci"><input type="checkbox"> Bus</label>
               <label class="ci"><input type="checkbox"> Tren</label>
             </span>
-            &nbsp;<span class="lbl">Otro (m)</span>&nbsp;<input type="text" style="width:50px">
+            &nbsp;&nbsp;<span class="lbl inline">Otro (m)</span>&nbsp;
+            <input type="text" style="width:60px; display:inline">
           </td>
         </tr>
       </tbody></table>
@@ -365,23 +342,20 @@ button {
       <div class="st">🏊 Piscina</div>
       <table class="tbl"><tbody>
         <tr>
-          <td><span class="lbl">Tipo&nbsp;</span>
-            <span class="ck" style="display:inline-flex">
+          <td colspan="2">
+            <span class="lbl inline">Tipo&nbsp;</span>
+            <span class="ck" style="display:inline-flex; margin-top:0">
               <label class="ci"><input type="checkbox"> Privada</label>
               <label class="ci"><input type="checkbox"> Comunit.</label>
-            </span>
-          </td>
-          <td>
-            <div class="ck">
               <label class="ci"><input type="checkbox"> Climatizada</label>
               <label class="ci"><input type="checkbox"> Cubierta</label>
               <label class="ci"><input type="checkbox"> Jacuzzi</label>
-            </div>
+            </span>
           </td>
         </tr>
         <tr>
-          <td><span class="lbl">Horario Mañana</span><br><input type="text" placeholder="09:00 – 14:00" style="width:100%"></td>
-          <td><span class="lbl">Horario Tarde</span><br><input type="text" placeholder="16:00 – 21:00" style="width:100%"></td>
+          <td><span class="lbl">Horario Mañana</span><input type="text" placeholder="09:00 – 14:00" style="width:100%"></td>
+          <td><span class="lbl">Horario Tarde</span><input type="text" placeholder="16:00 – 21:00" style="width:100%"></td>
         </tr>
         <tr>
           <td colspan="2">
@@ -399,18 +373,19 @@ button {
       <div class="st">🍳 Cocina</div>
       <table class="tbl"><tbody>
         <tr>
-          <td style="width:40%"><span class="lbl">Tipo&nbsp;</span>
-            <div class="ck">
+          <td colspan="3">
+            <span class="lbl inline">Tipo&nbsp;</span>
+            <span class="ck" style="display:inline-flex; margin-top:0">
               <label class="ci"><input type="checkbox"> Separada</label>
               <label class="ci"><input type="checkbox"> Americana</label>
-            </div>
-          </td>
-          <td style="width:20%"><span class="lbl">Fuegos</span><br><input type="number" max="6" style="width:100%"></td>
-          <td><span class="lbl">Energía&nbsp;</span>
-            <div class="ck">
+            </span>
+            &nbsp;&nbsp;<span class="lbl inline">Fuegos</span>&nbsp;
+            <input type="number" max="6" style="width:40px; display:inline">
+            &nbsp;&nbsp;<span class="lbl inline">Energía</span>&nbsp;
+            <span class="ck" style="display:inline-flex; margin-top:0">
               <label class="ci"><input type="checkbox"> Eléct.</label>
               <label class="ci"><input type="checkbox"> Gas</label>
-            </div>
+            </span>
           </td>
         </tr>
         <tr>
@@ -447,18 +422,18 @@ button {
       <div class="st">🛏 Habitaciones</div>
       <table class="tbl"><tbody>
         <tr>
-          <td><span class="lbl">Nº Hab.</span><br><input type="number" style="width:100%"></td>
-          <td><span class="lbl">Cap. máx.</span><br><input type="number" style="width:100%"></td>
+          <td><span class="lbl">Nº Hab.</span><input type="number" style="width:100%"></td>
+          <td><span class="lbl">Cap. máx.</span><input type="number" style="width:100%"></td>
         </tr>
         <tr>
-          <td colspan="2"><span class="lbl">Camas indiv. (cm)</span><br><input type="text" placeholder="nº · 90×200" style="width:100%"></td>
+          <td colspan="2"><span class="lbl">Camas indiv. (cm)</span><input type="text" placeholder="nº · 90×200" style="width:100%"></td>
         </tr>
         <tr>
-          <td colspan="2"><span class="lbl">Camas matrim. (cm)</span><br><input type="text" placeholder="nº · 150×200" style="width:100%"></td>
+          <td colspan="2"><span class="lbl">Camas matr. (cm)</span><input type="text" placeholder="nº · 150×200" style="width:100%"></td>
         </tr>
         <tr>
-          <td><span class="lbl">Cunas</span><br><input type="number" style="width:100%"></td>
-          <td><span class="lbl">Sofá-cama</span><br><input type="number" style="width:100%"></td>
+          <td><span class="lbl">Cunas</span><input type="number" style="width:100%"></td>
+          <td><span class="lbl">Sofá-cama</span><input type="number" style="width:100%"></td>
         </tr>
         <tr>
           <td colspan="2">
@@ -476,10 +451,17 @@ button {
       <div class="st">🚿 Baños</div>
       <table class="tbl"><tbody>
         <tr>
-          <td><span class="lbl">Total</span>&nbsp;<input type="number" style="width:32px">&nbsp;&nbsp;<span class="lbl">Aseos</span>&nbsp;<input type="number" style="width:32px"></td>
+          <td>
+            <span class="lbl inline">Total</span>&nbsp;
+            <input type="number" style="width:40px; display:inline">
+            &nbsp;&nbsp;
+            <span class="lbl inline">Aseos</span>&nbsp;
+            <input type="number" style="width:40px; display:inline">
+          </td>
         </tr>
         <tr>
-          <td><span class="lbl">Baño 1&nbsp;</span>
+          <td>
+            <span class="lbl inline">Baño 1&nbsp;</span>
             <div class="ck">
               <label class="ci"><input type="checkbox"> Váter</label>
               <label class="ci"><input type="checkbox"> Lavabo</label>
@@ -489,7 +471,8 @@ button {
           </td>
         </tr>
         <tr>
-          <td><span class="lbl">Baño 2&nbsp;</span>
+          <td>
+            <span class="lbl inline">Baño 2&nbsp;</span>
             <div class="ck">
               <label class="ci"><input type="checkbox"> Váter</label>
               <label class="ci"><input type="checkbox"> Lavabo</label>
@@ -504,33 +487,34 @@ button {
       <div class="st">📶 WiFi</div>
       <table class="tbl"><tbody>
         <tr>
-          <td><span class="lbl">Nombre red (SSID)</span><br><input type="text" style="width:100%"></td>
+          <td><span class="lbl">Nombre red (SSID)</span><input type="text" style="width:100%"></td>
         </tr>
         <tr>
-          <td><span class="lbl">Contraseña WiFi</span><br><input type="text" style="width:100%"></td>
+          <td><span class="lbl">Contraseña WiFi</span><input type="text" style="width:100%"></td>
         </tr>
       </tbody></table>
     </div>
   </div>
 
   <!-- CLIMATIZACIÓN + EXTRAS + SE PERMITEN -->
-  <div class="st" style="margin-top:5px;">❄️ Climatización · 🎾 Extras · ✅ Se Permiten</div>
+  <div class="st" style="margin-top:7px;">❄️ Climatización · 🎾 Extras · ✅ Se Permiten</div>
   <table class="tbl"><tbody>
     <tr>
-      <td style="width:28%">
-        <span class="lbl">A/C&nbsp;</span>
-        <label class="ci"><input type="checkbox"> Sí</label>
-        &nbsp;<span class="lbl">Ubic.</span>&nbsp;<input type="text" style="width:70px">
+      <td style="width:30%">
+        <span class="lbl inline">A/C&nbsp;</span>
+        <label class="ci" style="display:inline-flex"><input type="checkbox">&nbsp;Sí</label>
+        &nbsp;&nbsp;<span class="lbl inline">Ubic.</span>&nbsp;
+        <input type="text" style="width:90px; display:inline">
       </td>
-      <td style="width:20%">
-        <span class="lbl">Ventilador&nbsp;</span>
+      <td style="width:22%">
+        <span class="lbl">Ventilador</span>
         <div class="ck">
           <label class="ci"><input type="checkbox"> Pie</label>
           <label class="ci"><input type="checkbox"> Techo</label>
         </div>
       </td>
       <td>
-        <span class="lbl">Calefacción&nbsp;</span>
+        <span class="lbl">Calefacción</span>
         <div class="ck">
           <label class="ci"><input type="checkbox"> Radiadores</label>
           <label class="ci"><input type="checkbox"> Eléct.</label>
@@ -553,22 +537,24 @@ button {
           <label class="ci"><input type="checkbox"> Niños</label>
           <label class="ci"><input type="checkbox"> Fumadores</label>
           <label class="ci"><input type="checkbox"> Mascotas</label>
-          &nbsp;<span class="lbl">Seguridad</span>&nbsp;<input type="text" style="width:80px">
-          &nbsp;<span class="lbl">Otros</span>&nbsp;<input type="text" style="width:80px">
+          &nbsp;&nbsp;<span class="lbl inline">Seguridad</span>&nbsp;
+          <input type="text" style="width:90px; display:inline">
+          &nbsp;&nbsp;<span class="lbl inline">Otros</span>&nbsp;
+          <input type="text" style="width:90px; display:inline">
         </div>
       </td>
     </tr>
   </tbody></table>
 
   <!-- OBSERVACIONES -->
-  <div class="st" style="margin-top:5px;">📝 Observaciones</div>
+  <div class="st" style="margin-top:7px;">📝 Observaciones</div>
   <div class="obs">
-    <textarea rows="2" placeholder="Observaciones generales, condiciones especiales, accesos, notas..."></textarea>
+    <textarea rows="3" placeholder="Observaciones generales, condiciones especiales, accesos, notas..."></textarea>
   </div>
 
   <!-- FIRMA -->
   <div class="firma">
-    <div class="firma-ttl">Conformidad del Propietario</div>
+    <div class="firma-ttl">✍️ Conformidad del Propietario</div>
     <div class="firma-row">
       <div class="firma-f w">
         <span>Nombre y Apellidos del Propietario</span>
@@ -597,6 +583,5 @@ function resetForm() {
   document.querySelectorAll('#sheet textarea').forEach(t => t.value = '');
 }
 </script>
-
 </body>
 </html>
